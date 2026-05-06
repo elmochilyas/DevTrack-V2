@@ -102,4 +102,19 @@ class ProjectController extends Controller
             ->route('projects.show', $project)
             ->with('success', 'Project updated');
     }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Project $project)
+    {
+        $this->authorize('delete', $project);
+
+        // Soft delete (archive)
+        $project->delete();
+
+        return redirect()
+            ->route('projects.index')
+            ->with('success', 'Project archived');
+    }
 }
