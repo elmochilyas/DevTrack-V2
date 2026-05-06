@@ -52,7 +52,7 @@ class ProjectController extends Controller
         // Create project with current user as creator
         $project = Project::create([
             'title' => $request->validated()['title'],
-            'description' => $request->validated()['description'],
+            'description' => $request->validated()['description'] ?? null,
             'deadline' => $request->validated()['deadline'],
             'created_by' => auth()->id(),
         ]);
