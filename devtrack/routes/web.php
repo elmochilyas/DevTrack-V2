@@ -27,4 +27,8 @@ Route::middleware('auth')->group(function () {
 
 });
 
+Route::middleware('auth')->group(function () {
+    Route::resource('projects', ProjectController::class);
+});
+
 require __DIR__.'/auth.php';
