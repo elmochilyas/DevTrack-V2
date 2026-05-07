@@ -10,11 +10,21 @@ use Illuminate\Auth\Access\Response;
 class TaskPolicy
 {
     /**
+     * Check if user can view any tasks in a project.
+     * Project lead and members can view tasks.
+     */
+    public function viewAny(User $user, Project $project): bool
+    {
+        return $project->created_by == $user->id || 
+               $project->members()->where('user_id', $user->id)->exists();
+    }
+
+    /**
      *Check if the user is the lead (creator) of the project.
      */
     private function isLead(User $user, Task $task): bool
     {
-        return $task->project->created_by === $user->id;
+        return $task->project->created_by == $user->id;
     }
 
     /**
@@ -30,7 +40,7 @@ class TaskPolicy
      */
     private function isAssigned(User $user, Task $task): bool
     {
-        return $task->assigned_to === $user->id;
+        return $task->assigned_to == $user->id;
     }
 
     /**
@@ -43,14 +53,16 @@ class TaskPolicy
 
     /**
      * Determine whether the user can create a task in a project.
+     * Project lead and members can create tasks.
      */
     public function create(User $user, Project $project): bool
     {
-        return $project->created_by === $user->id;
+        return $project->created_by == $user->id;
     }
 
     /**
      * Determine whether the user can perform a full update.
+     * Only project lead can update tasks.
      */
     public function update(User $user, Task $task): bool
     {
@@ -59,6 +71,7 @@ class TaskPolicy
 
     /**
      * Determine whether the user can update the status.
+     * Project lead and assigned developer can update status.
      */
     public function updateStatus(User $user, Task $task): bool
     {
@@ -67,6 +80,7 @@ class TaskPolicy
 
     /**
      * Determine whether the user can delete the task.
+     * Only project lead can delete tasks.
      */
     public function delete(User $user, Task $task): bool
     {

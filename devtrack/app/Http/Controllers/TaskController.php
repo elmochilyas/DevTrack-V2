@@ -8,17 +8,14 @@ use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class TaskController extends Controller
 {
-    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
     public function index(Project $project)
     {
-        // User must be able to view the project
-        $this->authorize('view', $project);
+        $this->authorize('viewAny', [Task::class, $project]);
 
         // Load tasks with eager loading to prevent N+1 queries
         $tasks = $project->tasks()
