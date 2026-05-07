@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\User;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Http\Request;
@@ -85,7 +86,7 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $this->authorize('update', $project);
-        
+
         return view('projects.edit', ['project' => $project]);
     }
 
@@ -110,11 +111,78 @@ class ProjectController extends Controller
     {
         $this->authorize('delete', $project);
 
-        // Soft delete (archive)
         $project->delete();
 
         return redirect()
             ->route('projects.index')
             ->with('success', 'Project archived');
+    }
+
+    public function archived()
+    {
+        $projects = Project::onlyTrashed()
+            ->where('created_by', auth()->id())
+            ->with('tasks', 'members')
+            ->get();
+
+        return view('projects.archived', ['projects' => $projects]);
+    }
+
+    public function restore(int $id)
+    {
+        $project = Project::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('restore', $project);
+
+        $project->restore();
+
+        return redirect()
+            ->route('projects.archived')
+            ->with('success', 'Project restored');
+    }
+
+    public function forceDelete(int $id)
+    {
+        $project = Project::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('forceDelete', $project);
+
+        $project->forceDelete();
+
+        return redirect()
+            ->route('projects.archived')
+            ->with('success', 'Project permanently deleted');
+    }
+
+    public function addMember(Request $request, Project $project)
+    {
+        $this->authorize('update', $project);
+
+        $validated = $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        $user = User::where('email', $validated['email'])->first();
+
+        if ($project->members()->where('user_id', $user->id)->exists() || $project->created_by === $user->id) {
+            return back()->withErrors(['email' => 'User is already a member of this project.']);
+        }
+
+        $project->members()->attach($user->id, ['role' => 'developer']);
+
+        return back()->with('success', 'Member added successfully');
+    }
+
+    public function removeMember(Request $request, Project $project, User $user)
+    {
+        $this->authorize('update', $project);
+
+        if ($project->created_by === $user->id) {
+            return back()->withErrors(['member' => 'Cannot remove the project lead.']);
+        }
+
+        $project->members()->detach($user->id);
+
+        return back()->with('success', 'Member removed');
     }
 }
