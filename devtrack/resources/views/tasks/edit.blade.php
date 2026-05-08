@@ -1,17 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="flex items-center gap-4">
-            <a href="{{ route('projects.tasks.show', [$project, $task]) }}" class="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-xl flex items-center justify-center transition-colors group">
-                <svg class="w-5 h-5 text-gray-600 group-hover:text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-            </a>
-            <div>
-                <h2 class="font-bold text-2xl text-gray-900 leading-tight">Edit Task</h2>
-                <p class="text-sm text-gray-500 mt-1">{{ $task->title }}</p>
-            </div>
-        </div>
-    </x-slot>
 
     <div class="py-8 md:py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">

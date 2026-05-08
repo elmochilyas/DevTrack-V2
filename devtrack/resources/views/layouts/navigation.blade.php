@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-200 sticky top-0 z-50">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
 
@@ -37,8 +37,20 @@
                 </div>
             </div>
 
-            <!-- Right: User Menu -->
+            <!-- Right: Page Actions + User Menu -->
             <div class="hidden sm:flex items-center gap-3">
+                @if(request()->routeIs('projects.index'))
+                    <a href="{{ route('projects.create') }}"
+                       class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        New Project
+                    </a>
+                @endif
+                @if(!empty($navActions))
+                    {{ $navActions }}
+                @endif
                 <!-- User Avatar Dropdown -->
                 <div x-data="{ open: false }" class="relative">
                     <button @click="open = !open" class="flex items-center gap-2.5 px-3 py-2 rounded-xl border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" aria-label="Toggle user menu" aria-haspopup="true" :aria-expanded="open">
