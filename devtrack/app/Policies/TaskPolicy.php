@@ -53,7 +53,7 @@ class TaskPolicy
 
     /**
      * Determine whether the user can create a task in a project.
-     * Project lead and members can create tasks.
+     * Only the project lead can create tasks.
      */
     public function create(User $user, Project $project): bool
     {
