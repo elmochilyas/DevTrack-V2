@@ -19,7 +19,9 @@ class ProjectPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return Project::where('created_by', $user->id)
+            ->orWhereHas('members', fn ($query) => $query->where('user_id', $user->id))
+            ->exists();
     }
 
     /**
