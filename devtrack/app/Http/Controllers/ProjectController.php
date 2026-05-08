@@ -15,19 +15,10 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        // Get all projects where user is a member (lead or developer)
         $projects = auth()->user()
-            ->projects()  // From User model relationship
-            ->with('tasks', 'members')  // Eager load to avoid N+1
-            ->get();
-
-        // Also add projects where user is the LEAD
-        $ledProjects = Project::where('created_by', auth()->id())
+            ->projects()
             ->with('tasks', 'members')
             ->get();
-
-        // Merge and remove duplicates (if user is both lead and member)
-        $projects = $projects->merge($ledProjects)->unique('id');
 
         return view('projects.index', ['projects' => $projects]);
     }

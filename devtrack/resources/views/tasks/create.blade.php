@@ -1,10 +1,31 @@
 <x-app-layout>
+    @section('breadcrumbs')
+        <nav class="flex items-center text-sm font-medium">
+            <a href="{{ route('dashboard') }}" class="text-gray-400 hover:text-gray-600 transition-colors">Dashboard</a>
+            <svg class="w-4 h-4 mx-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <a href="{{ route('projects.index') }}" class="text-gray-400 hover:text-gray-600 transition-colors">Projects</a>
+            <svg class="w-4 h-4 mx-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <a href="{{ route('projects.show', $project) }}" class="text-gray-400 hover:text-gray-600 transition-colors truncate max-w-32">{{ $project->title }}</a>
+            <svg class="w-4 h-4 mx-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <a href="{{ route('projects.tasks.index', $project) }}" class="text-gray-400 hover:text-gray-600 transition-colors">Tasks</a>
+            <svg class="w-4 h-4 mx-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            <span class="text-gray-900">Create</span>
+        </nav>
+    @endsection>
 
     <div class="py-8 md:py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-slide-up">
                 <div class="bg-gradient-to-r from-indigo-50 to-purple-50 px-6 py-4 border-b border-gray-100">
-                    <h3 class="text-lg font-bold text-gray-900">Task Information</h3>
+                    <h3 class="text-lg font-bold text-gray-900">Create Task</h3>
                 </div>
                 <div class="p-6 md:p-8">
                     <form action="{{ route('projects.tasks.store', $project) }}" method="POST">
@@ -65,17 +86,32 @@
                                 <x-input-error :messages="$errors->get('deadline')" class="mt-2" />
                             </div>
 
-                            <!-- Task Priority -->
+                            <!-- Task Priority (Visual Cards) -->
                             <div>
-                                <label for="priority" class="block text-sm font-semibold text-gray-700 mb-2">Priority</label>
-                                <select id="priority"
-                                        name="priority"
-                                        class="block w-full rounded-xl border-2 border-gray-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-gray-900 transition-colors"
-                                        required>
-                                    <option value="low" {{ old('priority') === 'low' ? 'selected' : '' }}>Low</option>
-                                    <option value="medium" {{ old('priority') === 'medium' ? 'selected' : '' }} selected>Medium</option>
-                                    <option value="high" {{ old('priority') === 'high' ? 'selected' : '' }}>High</option>
-                                </select>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Priority</label>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <label class="relative cursor-pointer">
+                                        <input type="radio" name="priority" value="low" {{ old('priority', 'medium') === 'low' ? 'checked' : '' }} class="sr-only peer">
+                                        <div class="border-2 rounded-xl p-3 text-center transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-blue-300">
+                                            <div class="w-3 h-3 bg-blue-400 rounded-full block mx-auto mb-1"></div>
+                                            <span class="text-xs font-semibold text-blue-800">Low</span>
+                                        </div>
+                                    </label>
+                                    <label class="relative cursor-pointer">
+                                        <input type="radio" name="priority" value="medium" {{ old('priority', 'medium') === 'medium' ? 'checked' : '' }} class="sr-only peer">
+                                        <div class="border-2 rounded-xl p-3 text-center transition-all duration-200 peer-checked:border-orange-500 peer-checked:bg-orange-50 hover:border-orange-300">
+                                            <div class="w-3 h-3 bg-orange-400 rounded-full block mx-auto mb-1"></div>
+                                            <span class="text-xs font-semibold text-orange-800">Medium</span>
+                                        </div>
+                                    </label>
+                                    <label class="relative cursor-pointer">
+                                        <input type="radio" name="priority" value="high" {{ old('priority') === 'high' ? 'checked' : '' }} class="sr-only peer">
+                                        <div class="border-2 rounded-xl p-3 text-center transition-all duration-200 peer-checked:border-red-500 peer-checked:bg-red-50 hover:border-red-300">
+                                            <div class="w-3 h-3 bg-red-500 rounded-full block mx-auto mb-1"></div>
+                                            <span class="text-xs font-semibold text-red-800">High</span>
+                                        </div>
+                                    </label>
+                                </div>
                                 <x-input-error :messages="$errors->get('priority')" class="mt-2" />
                             </div>
                         </div>
@@ -109,15 +145,15 @@
                         <!-- Submit Buttons -->
                         <div class="flex items-center justify-between pt-6 border-t border-gray-100">
                             <a href="{{ route('projects.tasks.index', $project) }}"
-                               class="inline-flex items-center px-5 py-2.5 bg-white border-2 border-gray-200 rounded-xl font-semibold text-sm text-gray-700 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-200">
+                               class="inline-flex items-center px-5 py-2.5 bg-white border-2 border-gray-200 rounded-xl font-semibold text-sm text-gray-700 shadow-sm hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-200">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                 </svg>
                                 Cancel
                             </a>
-                            <button type="submit" class="inline-flex items-center px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-700 border border-transparent rounded-xl font-semibold text-sm text-white shadow-lg shadow-indigo-500/30 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-105">
+                            <button type="submit" class="inline-flex items-center px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-700 border border-transparent rounded-xl font-semibold text-sm text-white shadow-lg shadow-indigo-500/30 hover:from-indigo-700 hover:to-indigo-800 hover:shadow-indigo-500/40 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-200">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
                                 </svg>
                                 Create Task
                             </button>
@@ -127,7 +163,7 @@
             </div>
 
             <!-- Tips -->
-            <div class="mt-6 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-6">
+            <div class="mt-6 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-6 animate-slide-up" style="animation-delay: 100ms">
                 <div class="flex">
                     <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0 mr-4">
                         <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -137,16 +173,22 @@
                     <div>
                         <p class="font-semibold text-blue-900 mb-2">Tips for creating a great task</p>
                         <ul class="space-y-1.5">
-                            <li class="text-sm text-blue-800 flex items-start">
-                                <svg class="w-4 h-4 mr-2 mt-0.5 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 011.414-1.414L9 8.586l2.293-2.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                            <li class="flex items-start text-sm text-blue-800">
+                                <svg class="w-4 h-4 mr-2 mt-0.5 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 011.414-1.414L9 8.586l2.293-2.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                </svg>
                                 Be specific and actionable in the title
                             </li>
-                            <li class="text-sm text-blue-800 flex items-start">
-                                <svg class="w-4 h-4 mr-2 mt-0.5 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 011.414-1.414L9 8.586l2.293-2.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                            <li class="flex items-start text-sm text-blue-800">
+                                <svg class="w-4 h-4 mr-2 mt-0.5 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 011.414-1.414L9 8.586l2.293-2.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                </svg>
                                 Assign high priority only to blocking tasks
                             </li>
-                            <li class="text-sm text-blue-800 flex items-start">
-                                <svg class="w-4 h-4 mr-2 mt-0.5 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 011.414-1.414L9 8.586l2.293-2.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                            <li class="flex items-start text-sm text-blue-800">
+                                <svg class="w-4 h-4 mr-2 mt-0.5 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 011.414-1.414L9 8.586l2.293-2.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                </svg>
                                 Assign to a developer for accountability
                             </li>
                         </ul>

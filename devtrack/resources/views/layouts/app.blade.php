@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'DevTrack') }}</title>
+        <title>@yield('title', config('app.name', 'DevTrack'))</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -18,6 +18,15 @@
 
         <div class="min-h-screen flex flex-col">
             @include('layouts.navigation', ['navActions' => $navActions ?? null])
+
+            <!-- Breadcrumbs -->
+            @hasSection('breadcrumbs')
+                <div class="bg-white border-b border-gray-100 shadow-sm">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+                        @yield('breadcrumbs')
+                    </div>
+                </div>
+            @endif
 
             <!-- Page Content -->
             <main class="flex-1">
@@ -33,5 +42,7 @@
                 </div>
             </footer>
         </div>
+
+        @stack('scripts')
     </body>
 </html>

@@ -1,0 +1,397 @@
+/* ========================================
+   DEVTRACK UI - Modern Design System
+   ======================================== */
+
+/* ========================================
+   Custom Animations
+   ======================================== */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Spring animation for natural motion */
+@keyframes spring-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(10px);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.02) translateY(-2px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes pulse-soft {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Shimmer loading effect */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+/* Gradient rotation */
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* ========================================
+   Animation Classes
+   ======================================== */
+.animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+}
+
+.animate-slide-up {
+    animation: slide-up 0.4s ease-out;
+}
+
+.animate-scale-in {
+    animation: scale-in 0.2s ease-out;
+}
+
+.animate-spring-in {
+    animation: spring-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.animate-pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+    background: linear-gradient(90deg, #f1f5f9 0%, #ffffff 50%, #f1f5f9 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite linear;
+}
+
+/* ========================================
+   Modern Shadow System
+   ======================================== */
+.shadow-xs {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+}
+
+.shadow-soft {
+    box-shadow: 0 2px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-modern {
+    box-shadow: 0 4px 20px -3px rgba(0, 0, 0, 0.08), 0 1px 3px -1px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-modern-lg {
+    box-shadow: 0 10px 40px -5px rgba(0, 0, 0, 0.1), 0 4px 10px -2px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-glow-indigo {
+    box-shadow: 0 0 20px -3px rgba(99, 102, 241, 0.25), 0 4px 6px -1px rgba(99, 102, 241, 0.1);
+}
+
+.shadow-glow-emerald {
+    box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.25), 0 4px 6px -1px rgba(16, 185, 129, 0.1);
+}
+
+/* ========================================
+   Glassmorphism
+   ======================================== */
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-dark {
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ========================================
+   Gradient Utilities
+   ======================================== */
+.gradient-text {
+    @apply bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent;
+}
+
+.gradient-border {
+    position: relative;
+}
+
+.gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed, #a78bfa);
+    border-radius: inherit;
+    z-index: -1;
+}
+
+.gradient-bg-animated {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed, #a78bfa, #4f46e5);
+    background-size: 300% 300%;
+    animation: gradient-shift 6s ease infinite;
+}
+
+/* ========================================
+   Modern Card Styles
+   ======================================== */
+.card-modern {
+    @apply bg-white rounded-2xl border border-gray-100;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-modern:hover {
+    @apply shadow-modern;
+    transform: translateY(-4px);
+}
+
+.card-modern:active {
+    transform: translateY(-2px);
+}
+
+.card-glass {
+    @apply glass rounded-2xl border-white/20;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-glass:hover {
+    @apply shadow-modern;
+    transform: translateY(-4px);
+}
+
+/* ========================================
+   Button Modern
+   ======================================== */
+.btn-modern {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-modern::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.5s;
+}
+
+.btn-modern:hover::after {
+    transform: translateX(100%);
+}
+
+.btn-primary {
+    @apply btn-modern bg-gradient-to-r from-indigo-600 to-indigo-700 text-white shadow-glow-indigo;
+}
+
+.btn-primary:hover {
+    @apply from-indigo-700 to-indigo-800 shadow-modern-lg;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    @apply btn-modern bg-red-600 text-white shadow-lg;
+}
+
+.btn-danger:hover {
+    @apply bg-red-700 shadow-modern-lg;
+    transform: translateY(-2px);
+}
+
+.btn-ghost {
+    @apply btn-modern bg-white border-2 border-gray-200 text-gray-700;
+}
+
+.btn-ghost:hover {
+    @apply border-indigo-300 bg-indigo-50 text-indigo-700;
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   Input Enhancement
+   ======================================== */
+.input-modern {
+    @apply w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-sm;
+    @apply focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-modern:focus {
+    transform: translateY(-1px);
+}
+
+/* ========================================
+   Custom Scrollbar
+   ======================================== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* ========================================
+   Toast Notification
+   ======================================== */
+.toast-enter {
+    animation: slide-up 0.3s ease-out;
+}
+
+.toast-exit {
+    animation: fade-in 0.3s ease-out reverse;
+}
+
+/* ========================================
+   Skeleton Loading
+   ======================================== */
+.skeleton {
+    @apply bg-gray-200 rounded;
+    background: linear-gradient(90deg, #e5e7eb 0%, #f9fafb 50%, #e5e7eb 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite linear;
+}
+
+/* ========================================
+   Status Badge Modern
+   ======================================== */
+.badge-modern {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+.badge-success {
+    @apply badge-modern bg-emerald-100 text-emerald-800;
+}
+
+.badge-warning {
+    @apply badge-modern bg-yellow-100 text-yellow-800;
+}
+
+.badge-danger {
+    @apply badge-modern bg-red-100 text-red-800;
+}
+
+.badge-info {
+    @apply badge-modern bg-blue-100 text-blue-800;
+}
+
+.badge-indigo {
+    @apply badge-modern bg-indigo-100 text-indigo-800;
+}
+
+/* ========================================
+   Progress Ring
+   ======================================== */
+.progress-ring {
+    transform: rotate(-90deg);
+}
+
+.progress-ring circle {
+    transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================================
+   Navigation Enhancements
+   ======================================== */
+.nav-glass {
+    @apply glass border-b border-white/20;
+}
+
+/* ========================================
+   Micro-interactions
+   ======================================== */
+.micro-lift {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.micro-lift:hover {
+    transform: translateY(-2px);
+}
+
+.micro-scale {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.micro-scale:hover {
+    transform: scale(1.05);
+}
+
+/* ========================================
+   Print Styles
+   ======================================== */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    body {
+        @apply bg-white;
+    }
+}
