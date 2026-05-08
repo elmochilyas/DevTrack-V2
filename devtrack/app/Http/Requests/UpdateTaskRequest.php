@@ -18,12 +18,12 @@ class UpdateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-           
             'title'       => ['required', 'string', 'min:3', 'max:255'],
             'description' => ['nullable', 'string', 'max:2000'],
             'deadline'    => ['required', 'date', 'after:today'],
             'priority'    => ['required', 'in:low,medium,high'],
-            'user_id'     => ['nullable', 'integer', 'exists:users,id'],
+            'assigned_to' => ['nullable', 'integer', 'exists:users,id'],
+            'status'      => ['nullable', 'in:todo,in_progress,done'],
         ];
     }
  
@@ -36,7 +36,7 @@ class UpdateTaskRequest extends FormRequest
             'deadline.after'    => 'The deadline must be a future date.',
             'priority.required' => 'The priority is required.',
             'priority.in'       => 'Invalid priority — accepted values: low, medium, high.',
-            'user_id.exists'    => 'This developer does not exist in our records.',
+            'assigned_to.exists' => 'This developer does not exist in our records.',
         ];
     }
 }

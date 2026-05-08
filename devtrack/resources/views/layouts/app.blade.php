@@ -17,16 +17,7 @@
     <body class="font-sans antialiased bg-slate-50">
 
         <div class="min-h-screen flex flex-col">
-            @include('layouts.navigation')
-
-            <!-- Page Heading - only render if header slot is used -->
-            @isset($header)
-                <div class="bg-white border-b border-gray-200">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-                        {{ $header }}
-                    </div>
-                </div>
-            @endisset
+            @include('layouts.navigation', ['navActions' => $navActions ?? null])
 
             <!-- Page Content -->
             <main class="flex-1">

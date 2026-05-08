@@ -154,6 +154,18 @@ class ProjectController extends Controller
             ->with('success', 'Project permanently deleted');
     }
 
+    public function showMembers(Project $project)
+    {
+        $this->authorize('update', $project);
+
+        $members = $project->members()->get();
+
+        return view('projects.members', [
+            'project' => $project,
+            'members' => $members,
+        ]);
+    }
+
     public function addMember(Request $request, Project $project)
     {
         $this->authorize('update', $project);

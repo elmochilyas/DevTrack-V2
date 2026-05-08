@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
         ->name('tasks.updateStatus');
 
     // Member management (US7)
+    Route::get('/projects/{project}/members', [ProjectController::class, 'showMembers'])->name('projects.members.show');
     Route::post('/projects/{project}/members', [ProjectController::class, 'addMember'])->name('projects.members.add');
     Route::delete('/projects/{project}/members/{user}', [ProjectController::class, 'removeMember'])->name('projects.members.remove');
 
